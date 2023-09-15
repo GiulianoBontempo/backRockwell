@@ -40,7 +40,8 @@ public class HUBController {
     @GetMapping("/")
     @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<List<HUB>> hubIndex(){
-        return new ResponseEntity<List<HUB>>(hubService.getAllHubs(), HttpStatus.OK);
+        //return new ResponseEntity<List<HUB>>(hubService.getAllHubs(), HttpStatus.OK);
+        return ResponseEntity.ok().body(hubService.getAllHubs());
     }
 
     // Endpoint para obter um HUB pelo nome
@@ -57,12 +58,13 @@ public class HUBController {
 
     // Endpoint para criar um novo HUB
     @PostMapping("/create")
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<HUBDTO> createHub(@RequestBody CreateHUBRequest request){
         HUB hub = hubService.createHub(request);
         HUBDTO responseHub = new HUBDTO(hub.getName());
 
-        return new ResponseEntity<>(responseHub, HttpStatus.OK);
+        //return new ResponseEntity<>(responseHub, HttpStatus.OK);
+        return ResponseEntity.ok().body(responseHub);
     }
 
     // Endpoint para deletar um HUB pelo nome
