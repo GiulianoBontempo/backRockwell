@@ -57,7 +57,7 @@ public class HUBController {
 
     // Endpoint para criar um novo HUB
     @PostMapping("/create")
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<HUBDTO> createHub(@RequestBody CreateHUBRequest request){
         HUB hub = hubService.createHub(request);
         HUBDTO responseHub = new HUBDTO(hub.getName());
