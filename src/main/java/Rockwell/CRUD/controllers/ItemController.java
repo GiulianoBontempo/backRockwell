@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,18 +27,21 @@ public class ItemController {
 
     // Endpoint para obter todos os itens
     @GetMapping("/")
+    @CrossOrigin(origins = "*")
     public Iterable<Item> getAllItems() {
         return itemService.getAllItems();
     }
 
     // Endpoint para criar um novo item
     @PostMapping("/create")
+    @CrossOrigin(origins = "*")
     public Item createItem(@RequestBody CreateItemRequest newItemRequest) {
         return itemService.createItem(newItemRequest);  
     }
 
     // Endpoint para conectar dois itens por nome
     @PostMapping("/connectToItem")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> connectByName(@RequestBody Map<String, String> conectarMap) {
         itemService.connectByName(conectarMap.get("name1"), conectarMap.get("name2"));
         return new ResponseEntity<>("Itens conectados!", HttpStatus.OK);
@@ -45,12 +49,14 @@ public class ItemController {
 
     // Endpoint para deletar todos os itens
     @DeleteMapping("/delete")
+    @CrossOrigin(origins = "*")
     public void deleteAllItems() {
         itemService.deleteAllItems();
     }
 
     // Endpoint para deletar uma conexão entre itens por nome
     @DeleteMapping("/deleteConnection")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> deleteConnection(@RequestBody Map<String, String> deletarMap){
         itemService.deleteConnection(deletarMap.get("name1"), deletarMap.get("name2"));
         return new ResponseEntity<>("Conexão deletada", HttpStatus.OK);
@@ -58,6 +64,7 @@ public class ItemController {
 
     // Endpoint para conectar um item a um HUB por nome
     @PostMapping("/connectToHUB")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> conectarItemHub(@RequestBody Map<String, String> conectarMap){
         itemService.connectItemToHub(conectarMap.get("Item"), conectarMap.get("HUB"));
         return new ResponseEntity<>("Itens conectados", HttpStatus.OK);

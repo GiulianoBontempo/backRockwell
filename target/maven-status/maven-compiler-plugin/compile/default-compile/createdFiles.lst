@@ -13,7 +13,6 @@ Rockwell\CRUD\repositories\TankRepository.class
 Rockwell\CRUD\models\Item.class
 Rockwell\CRUD\controllers\TankController.class
 Rockwell\CRUD\requests\DeletarArestaRequest.class
-Rockwell\CRUD\CorsConfig.class
 Rockwell\CRUD\repositories\ItemRepository.class
 Rockwell\CRUD\requests\ConectarItemRequest.class
 Rockwell\CRUD\requests\HUBToItemRequest.class

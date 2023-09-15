@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,12 +34,14 @@ public class TankController {
 
     // Endpoint para obter todos os tanques
     @GetMapping("/")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<List<Tank>> tankIndex(){
         return new ResponseEntity<List<Tank>>(tankService.getAllTanks(), HttpStatus.OK);
     }
 
     // Endpoint para criar um novo tanque
     @PostMapping("/create")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<Tank> createTank(@RequestBody CreateTankRequest request){
         Tank tank = tankService.createTank(request);
         return new ResponseEntity<>(tank , HttpStatus.CREATED);
@@ -46,6 +49,7 @@ public class TankController {
 
     // Endpoint para deletar um tanque pelo número
     @DeleteMapping("/{number}")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<Integer> deleteTank(@PathVariable int number){
         tankService.deleteTank(number);
         return new ResponseEntity<Integer>(number, HttpStatus.OK);

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,12 +38,14 @@ public class HUBController {
 
     // Endpoint para obter todos os HUBs
     @GetMapping("/")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<List<HUB>> hubIndex(){
         return new ResponseEntity<List<HUB>>(hubService.getAllHubs(), HttpStatus.OK);
     }
 
     // Endpoint para obter um HUB pelo nome
     @GetMapping("/{name}")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<HUBDTO> getHubByName(@PathVariable String name){
         HUB hub = hubService.getHubByName(name);
 
@@ -54,6 +57,7 @@ public class HUBController {
 
     // Endpoint para criar um novo HUB
     @PostMapping("/create")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<HUBDTO> createHub(@RequestBody CreateHUBRequest request){
         HUB hub = hubService.createHub(request);
         HUBDTO responseHub = new HUBDTO(hub.getName());
@@ -63,6 +67,7 @@ public class HUBController {
 
     // Endpoint para deletar um HUB pelo nome
     @DeleteMapping("/{name}")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> deleteHub(@PathVariable String name) {
         hubService.deleteHub(name);
         return new ResponseEntity<>("Hub deleted successfully", HttpStatus.OK);
@@ -70,6 +75,7 @@ public class HUBController {
 
     // Endpoint para conectar um HUB a um tanque
     @PostMapping("/connectToTank")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> connectToTank(@RequestBody HUBToTankRequest request){
 
         String hubName = request.getName();
@@ -86,6 +92,7 @@ public class HUBController {
 
     // Endpoint para conectar um HUB a um item
     @PostMapping("/connectToItem")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> connectToValve(@RequestBody HUBToItemRequest request){
 
         String hubName = request.getHubName();
@@ -102,6 +109,7 @@ public class HUBController {
 
     // Endpoint para conectar um HUB a outro HUB
     @PostMapping("/connectToHub")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> connectToHub(@RequestBody HUBToHUBRequest request){
 
         String startHubName = request.getStartHubName();
@@ -119,6 +127,7 @@ public class HUBController {
 
     // Endpoint para deletar a conexão entre um HUB a um tanque
     @DeleteMapping("/deleteConnectionToTank")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> deleteConnectionToTank(@RequestBody HUBToTankRequest request){
 
         String hubName = request.getName();
@@ -135,6 +144,7 @@ public class HUBController {
 
     // Endpoint para deletar a conexão entre um HUB a um item
     @DeleteMapping("/deleteConnectionToItem")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> deleteConnectionToItem(@RequestBody HUBToItemRequest request){
 
         String hubName = request.getHubName();
@@ -151,6 +161,7 @@ public class HUBController {
 
     // Endpoint para deletar a conexão entre um HUB a outro HUB
     @DeleteMapping("/deleteConnectionToHub")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> deleteConnectionToHub(@RequestBody HUBToHUBRequest request){
 
         String startHubName = request.getStartHubName();
