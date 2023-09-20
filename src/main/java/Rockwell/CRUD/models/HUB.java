@@ -12,14 +12,16 @@ public class HUB {
     @Id @GeneratedValue
     private long id;     // Identificador único do HUB
 
-    private String name; // Nome do HUB
+    private String name;
+    
+    private Integer positionX = 0;
+    private Integer positionY = 0;
 
-    // Construtor padrão vazio
     public HUB(){
-        
+        this.positionX = 0;
+        this.positionY = 0;
     }
     
-    // Método getter para obter o identificador único do HUB
     public long getId() {
         return id;
     }
@@ -29,8 +31,23 @@ public class HUB {
         return name;
     }
 
-    // Método setter para definir o nome do HUB
+    public Integer getPositionX(){
+        return positionX;
+    }
+
+    public Integer getPositionY(){
+        return positionY;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setPositionX(int positionX){
+        this.positionX = positionX;
+    }
+
+    public void setPositionY(int positionY){
+        this.positionY = positionY;
     }
 }

@@ -14,9 +14,14 @@ public class Tank {
 
     private int number; // Número do tanque
 
+    private Integer positionX;
+    private Integer positionY; // Posição do tanque
     // Construtor padrão vazio
     public Tank() {
+        this.positionX = 0;  
+        this.positionY = 0;  
     }
+    
 
     // Método getter para obter o identificador único do tanque
     public Long getId() {
@@ -24,12 +29,28 @@ public class Tank {
     }
 
     // Método getter para obter o número do tanque
-    public int getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
+    public Integer getPositionX(){
+        return positionX;
+    }
+
+    public Integer getPositionY(){
+        return positionY;
+    }   
+
     // Método setter para definir o número do tanque
-    public void setNumber(int number) {
+    public void setNumber(Integer number) {
         this.number = number;
+    }
+
+    public void setPositionX(Integer positionX){
+        this.positionX = positionX;
+    }
+
+    public void setPositionY(int positionY){
+        this.positionY = positionY;
     }
 }

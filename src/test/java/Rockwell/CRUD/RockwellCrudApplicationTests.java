@@ -1,4 +1,4 @@
-/*package Rockwell.CRUD;
+package Rockwell.CRUD;
 
 // Importações das classes e anotações necessárias
 import org.junit.jupiter.api.Test;
@@ -14,4 +14,3 @@ class RockwellCrudApplicationTests {
     }
 
 }
-*/

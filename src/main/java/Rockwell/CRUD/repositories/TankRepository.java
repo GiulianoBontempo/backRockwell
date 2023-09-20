@@ -6,16 +6,82 @@ import java.util.Optional;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 
-import Rockwell.CRUD.models.HUB;
 import Rockwell.CRUD.models.Tank;
 
 // Definição da interface do repositório que estende Neo4jRepository e trabalha com a entidade Tank e o tipo Long (para o ID)
 public interface TankRepository extends Neo4jRepository<Tank, Long> {
     
-    // Método para encontrar um Tank por número e retornar uma instância opcional de Tank
-    Optional<Tank> findTankByNumber(int number);
 
-    // Consulta personalizada para encontrar uma lista de Tanks conectados a um HUB específico por nome do HUB
-    @Query("MATCH (:HUB {name: $name})-[:CONNECTED_TO]->(tanks:Tank) RETURN tanks")
+   /**
+     * Encontra um Tank pelo número.
+     * @param number Número do Tank
+     * @return Um Optional contendo o Tank se ele existir
+     */
+   Optional<Tank> findTankByNumber(int number);
+
+   /**
+     * Encontra uma lista de Tanks que estão conectados a um HUB específico.
+     * @param name Nome do HUB
+     * @return Lista de Tanks conectados ao HUB
+     */
+   @Query("MATCH (:HUB {name: $name})-[:CONNECTED_TO]->(tanks:Tank) RETURN tanks")
     List<Tank> findTanksByHubName(String name);
+
+
+     /**
+     * Cria uma conexão entre dois Tanks.
+     * @param startTankNumber Número do primeiro Tank
+     * @param endTankNumber Número do segundo Tank
+     */
+    @Query("MATCH (tank1:Tank {number: $startTankNumber}), (tank2:Tank {number: $endTankNumber}) MERGE (tank1)-[:CONNECTED_TO]->(tank2)")
+    void createConnection(Integer startTankNumber, Integer endTankNumber);
+
+   /**
+     * Cria uma conexão entre um Tank e um EntradaESaida.
+     * @param tankNumber Número do Tank
+     * @param entradaESaidaName Nome do EntradaESaida
+     */
+    @Query("MATCH (tank:Tank {number: $tankNumber}), (entradaESaida:EntradaESaida {name: $entradaESaidaName}) MERGE (tank)-[:CONNECTED_TO]->(entradaESaida)")
+    void connectTankToEntradaESaida(Integer tankNumber, String entradaESaidaName);
+
+
+     /**
+     * Deleta a conexão entre dois Tanks.
+     * @param startTankNumber Número do primeiro Tank
+     * @param endTankNumber Número do segundo Tank
+     */
+    @Query("MATCH (tank1:Tank {number: $startTankNumber})-[r:CONNECTED_TO]-(tank2:Tank {number: $endTankNumber}) DELETE r")
+    void deleteConnection(Integer startTankNumber, Integer endTankNumber);
+
+     /**
+     * Deleta a conexão entre um Tank e um EntradaESaida.
+     * @param tankNumber Número do Tank
+     * @param entradaESaidaName Nome do EntradaESaida
+     */
+    @Query("MATCH (tank:Tank {number: $tankNumber})-[r:CONNECTED_TO]->(entradaESaida:EntradaESaida {name: $entradaESaidaName}) DELETE r")
+    void deleteTankEntradaESaidaConnection(Integer tankNumber, String entradaESaidaName);
+    
+    /**
+     * Cria uma conexão entre um Tank e um Hub.
+     * @param tankNumber Número do Tank
+     * @param hubName Nome do Hub
+     */
+     @Query("MATCH (tank:Tank {number: $tankNumber}), (hub:HUB {name: $hubName}) " +
+            "MERGE (tank)-[:CONNECTED_TO]->(hub)")
+    void connectTankToHub(Integer tankNumber, String hubName);
+
+     /**
+     * Deleta a conexão entre um Tank e um Hub.
+     * @param tankName Número do Tank
+     * @param hubName Nome do Hub
+     */
+    @Query("MATCH (tank:Tank {number: $tankName})-[r:CONNECTED_TO]->(hub:HUB {name: $hubName}) " +
+           "DELETE r")
+    void deleteConnectionToHub(Integer tankName, String hubName);
+
+
+
+
+
+    
 }

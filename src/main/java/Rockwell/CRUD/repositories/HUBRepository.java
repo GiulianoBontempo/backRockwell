@@ -1,7 +1,10 @@
 package Rockwell.CRUD.repositories;
 
 import Rockwell.CRUD.models.HUB;
+import Rockwell.CRUD.queries.GetAllConnectionsQueryResult;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 // Importações de classes necessárias
@@ -11,50 +14,120 @@ import org.springframework.data.neo4j.repository.query.Query;
 // Definição da interface do repositório que estende Neo4jRepository e trabalha com a entidade HUB e o tipo Long (para o ID)
 public interface HUBRepository extends Neo4jRepository<HUB, Long> {
 
-    // Método para encontrar um HUB por nome e retornar uma instância opcional de HUB
-    Optional<HUB> findHUBByName(String name);
 
-    // Consulta personalizada para verificar se um HUB está conectado a um Tank específico
-    @Query("MATCH (hub:HUB), (tank:Tank) WHERE hub.name = $hubName AND tank.number = $tankNumber " + 
+        /**
+     * Encontra um HUB pelo nome.
+     * @param name Nome do HUB
+     * @return Um Optional contendo o HUB se ele existir
+     */
+     Optional<HUB> findHUBByName(String name);
+
+        /**
+     * Verifica se um HUB está conectado a um Tank específico.
+     * @param hubName Nome do HUB
+     * @param tankNumber Número do Tank
+     * @return Verdadeiro se o HUB estiver conectado ao Tank, falso caso contrário
+     */
+     @Query("MATCH (hub:HUB), (tank:Tank) WHERE hub.name = $hubName AND tank.number = $tankNumber " + 
         "RETURN EXISTS((hub)-[:CONNECTED_TO]->(tank))")
     Boolean checkIfConnectedToTank(String hubName, int tankNumber);
 
-    // Consulta personalizada para criar uma conexão entre um HUB e um Tank
+
+        /**
+     * Cria uma conexão entre um HUB e um Tank.
+     * @param hubName Nome do HUB
+     * @param tankNumber Número do Tank
+     */
+
     @Query("MATCH (hub:HUB {name: $hubName}), (tank:Tank {number: $tankNumber}) " + 
             "CREATE (hub)-[:CONNECTED_TO]->(tank)")
     void createConnectionToTank(String hubName, int tankNumber);
 
-    // Consulta personalizada para verificar se um HUB está conectado a um Item específico
-    @Query("MATCH (hub:HUB), (item:Item) WHERE hub.name = $hubName AND item.name = $itemName " + 
-        "RETURN EXISTS((hub)-[:CONNECTED_TO]->(item))")
-    Boolean checkIfConnectedToItem(String hubName, String itemName);
 
-    // Consulta personalizada para criar uma conexão entre um HUB e um Item
-    @Query("MATCH (hub:HUB {name: $hubName}), (item:Item {name: $itemName}) " + 
-            "CREATE (hub)-[:CONNECTED_TO]->(item)")
-    void createConnectionToItem(String hubName, String itemName);
+    /**
+     * Verifica se um HUB está conectado a um EntradaESaida específico.
+     * @param hubName Nome do HUB
+     * @param entradaESaidaName Nome do EntradaESaida
+     * @return Verdadeiro se o HUB estiver conectado ao EntradaESaida, falso caso contrário
+     */
+    @Query("MATCH (hub:HUB), (entradaESaida:EntradaESaida) WHERE hub.name = $hubName AND entradaESaida.name = $entradaESaidaName " + 
+        "RETURN EXISTS((hub)-[:CONNECTED_TO]->(entradaESaida))")
+    Boolean checkIfConnectedToEntradaESaida(String hubName, String entradaESaidaName);
 
-    // Consulta personalizada para verificar se um HUB está conectado a outro HUB
+
+    /**
+     * Cria uma conexão entre um HUB e um EntradaESaida.
+     * @param hubName Nome do HUB
+     * @param entradaESaidaName Nome do EntradaESaida
+     */
+    @Query("MATCH (hub:HUB {name: $hubName}), (entradaESaida:EntradaESaida {name: $entradaESaidaName}) " + 
+            "CREATE (hub)-[:CONNECTED_TO]->(entradaESaida)")
+    void createConnectionToEntradaESaida(String hubName, String entradaESaidaName);
+
+
+    /**
+     * Verifica se um HUB está conectado a outro HUB.
+     * @param startHubName Nome do HUB inicial
+     * @param endHubName Nome do HUB final
+     * @return Verdadeiro se o HUB inicial estiver conectado ao HUB final, falso caso contrário
+     */
     @Query("MATCH (start_hub: HUB), (end_hub:HUB) WHERE start_hub.name = $startHubName AND end_hub.name = $endHubName " + 
         "RETURN EXISTS((start_hub)-[:CONNECTED_TO]->(end_hub))")
     Boolean checkIfConnectedToHub(String startHubName, String endHubName);
 
-    // Consulta personalizada para criar uma conexão entre dois HUBs
+
+
+    /**
+     * Cria uma conexão entre dois HUBs.
+     * @param startHubName Nome do HUB inicial
+     * @param endHubName Nome do HUB final
+     */
     @Query("MATCH (start_hub:HUB {name: $startHubName}), (end_hub:HUB {name: $endHubName}) " + 
             "CREATE (start_hub)-[:CONNECTED_TO]->(end_hub)")
     void createConnectionToHub(String startHubName, String endHubName);
 
+     /**
+     * Deleta a conexão entre um HUB e um Tank.
+     * @param hubName Nome do HUB
+     * @param tankNumber Número do Tank
+     */
     @Query("MATCH (hub:HUB {name: $hubName})-[r:CONNECTED_TO]->(tank:Tank {number: $tankNumber}) " +
             "DELETE r")
     void deleteConnectionToTank(String hubName, int tankNumber);
-
-    @Query("MATCH (hub:HUB {name: $hubName})-[r:CONNECTED_TO]->(item:Item {name: $itemName}) " +
+    
+    /**
+     * Deleta a conexão entre um HUB e um EntradaESaida.
+     * @param hubName Nome do HUB
+     * @param entradaESaidaName Nome do EntradaESaida
+     */
+    @Query("MATCH (hub:HUB {name: $hubName})-[r:CONNECTED_TO]->(entradaESaida:EntradaESaida {name: $entradaESaidaName}) " +
             "DELETE r")
-    void deleteConnectionToItem(String hubName, String itemName);
+    void deleteConnectionToEntradaESaida(String hubName, String entradaESaidaName);
 
+    /**
+     * Deleta a conexão entre dois HUBs.
+     * @param startHubName Nome do HUB inicial
+     * @param endHubName Nome do HUB final
+     */
     @Query("MATCH (start_hub:HUB {name: $startHubName})-[r:CONNECTED_TO]->(end_hub:HUB {name: $endHubName}) " +
             "DELETE r")
     void deleteConnectionToHub(String startHubName, String endHubName);
+
+    @Query("MATCH (a)-[:CONNECTED_TO]->(b) " + 
+            "RETURN " + 
+                "labels(a) AS sourceNodeType, " +
+                "CASE " +
+                    "WHEN 'HUB' IN labels(a) OR 'Valve' IN labels(a) OR 'EntradaESaida' IN labels(a) THEN a.name " +
+                    "WHEN 'Tank' IN labels(a) THEN toString(a.number) " +
+                    "ELSE null " +
+                    "END AS sourceNameOrNumber, " +
+                "labels(b) AS targetNodeType, " +
+                "CASE " +
+                    "WHEN 'HUB' IN labels(b) OR 'Valve' IN labels(b) OR 'EntradaESaida' IN labels(b) THEN b.name " +
+                    "WHEN 'Tank' IN labels(b) THEN toString(b.number) " +
+                    "ELSE null " +
+                    "END AS targetNameOrNumber")
+    List<GetAllConnectionsQueryResult> getAllConnections();
     
 }
 
