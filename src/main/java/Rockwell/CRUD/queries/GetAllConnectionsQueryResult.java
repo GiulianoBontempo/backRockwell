@@ -18,7 +18,10 @@ public class GetAllConnectionsQueryResult {
 
     // Getters and setters for each field
     public String getSourceNodeType() {
-        return sourceNodeType.get(0);
+        if (sourceNodeType.size() > 0){
+            return sourceNodeType.get(0);
+        }
+        else return null;
     }
 
     public void setSourceNodeType(List<String> sourceNodeType) {
@@ -34,7 +37,10 @@ public class GetAllConnectionsQueryResult {
     }
 
     public String getTargetNodeType() {
-        return targetNodeType.get(0);
+        if (targetNodeType.size() > 0){
+            return targetNodeType.get(0);
+        }
+        else return null;
     }
 
     public void setTargetNodeType(List<String> targetNodeType) {
@@ -52,9 +58,9 @@ public class GetAllConnectionsQueryResult {
     @Override
     public String toString() {
         return "QueryResult{" +
-                "sourceNodeType='" + sourceNodeType.get(0) + '\'' +
+                "sourceNodeType='" + getSourceNodeType() + '\'' +
                 ", sourceNameOrNumber='" + sourceNameOrNumber + '\'' +
-                ", targetNodeType='" + targetNodeType.get(0) + '\'' +
+                ", targetNodeType='" + getTargetNodeType() + '\'' +
                 ", targetNameOrNumber='" + targetNameOrNumber + '\'' +
                 '}';
     }
