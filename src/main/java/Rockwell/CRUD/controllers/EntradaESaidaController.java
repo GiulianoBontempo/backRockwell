@@ -10,6 +10,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,12 +33,14 @@ public class EntradaESaidaController {
      * @return Uma lista iterável de todas as entradas e saídas.
      */
     @GetMapping("/")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public Iterable<EntradaESaida> getAllEntradasOuSaidas() {
         return entradaESaidaService.getAllEntradasOuSaidas();
     }
 
 
      @GetMapping("/{name}")
+     @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<EntradaESaida> getEntradaESaidaByName(@PathVariable String name) {
         EntradaESaida entradaESaida = entradaESaidaService.getEntradaESaidaByName(name);
         return new ResponseEntity<>(entradaESaida, HttpStatus.OK);
@@ -50,6 +53,7 @@ public class EntradaESaidaController {
      * @return A entrada e saída criada.
      */
     @PostMapping("/create")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public EntradaESaida createEntradaOuSaida(@RequestBody CreateEntradaESaidaRequest newEntradaESaidaRequest) {
         return entradaESaidaService.createEntradaOuSaida(newEntradaESaidaRequest);
     }
@@ -61,6 +65,7 @@ public class EntradaESaidaController {
      * @return Uma mensagem de sucesso.
      */
     @PostMapping("/connectToEntradaESaida")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> connectByName(@RequestBody Map<String, String> connectMap) {
         entradaESaidaService.connectByName(connectMap.get("startItem"), connectMap.get("endItem"));
         return new ResponseEntity<>("Entradas e Saídas conectadas!", HttpStatus.OK);
@@ -70,6 +75,7 @@ public class EntradaESaidaController {
      * Endpoint para deletar todas as entradas e saídas.
      */
     @DeleteMapping("/delete")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public void deleteAllEntradasOuSaidas() {
         entradaESaidaService.deleteAllEntradasOuSaidas();
     }
@@ -81,6 +87,7 @@ public class EntradaESaidaController {
      * @return Uma mensagem de sucesso.
      */
     @DeleteMapping("/deleteConnection")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> deleteConnection(@RequestBody Map<String, String> deleteMap){
         entradaESaidaService.deleteConnection(deleteMap.get("startItem"), deleteMap.get("endItem"));
         return new ResponseEntity<>("Conexão entre entradas e saídas deletada", HttpStatus.OK);
@@ -93,6 +100,7 @@ public class EntradaESaidaController {
      * @return Uma mensagem de sucesso.
      */
     @PostMapping("/connectToHUB")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> connectEntradaOuSaidaToHub(@RequestBody Map<String, String> connectMap){
         entradaESaidaService.connectEntradaOuSaidaToHub(connectMap.get("Item"), connectMap.get("HUB"));
         return new ResponseEntity<>("Entrada e Saída conectadas ao HUB", HttpStatus.OK);
@@ -101,6 +109,7 @@ public class EntradaESaidaController {
 
     //connect to tank
     @PostMapping("/connectToTank")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> connectEntradaESaidaToTank(@RequestBody Map<String, Object> connectMap){
         String entradaESaidaName = (String) connectMap.get("entradaESaidaName");
         Integer tankNumber = (Integer) connectMap.get("tankNumber");
@@ -109,6 +118,7 @@ public class EntradaESaidaController {
     }
 
     @PutMapping("/{name}/updatePosition")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
         public ResponseEntity<EntradaESaida> updateEntradaESaidaPosition(@PathVariable String name,@RequestBody UpdateEntradaESaidaPosition request) {
             EntradaESaida updatedEntradaESaida = entradaESaidaService.updateEntradaESaidaPosition(name, request.getPositionX(), request.getPositionY());
             return new ResponseEntity<>(updatedEntradaESaida, HttpStatus.OK);

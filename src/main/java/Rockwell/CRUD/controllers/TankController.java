@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,6 +47,7 @@ public class TankController {
      */
     // Endpoint para obter todos os tanques
     @GetMapping("/")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<List<Tank>> tankIndex(){
         return new ResponseEntity<List<Tank>>(tankService.getAllTanks(), HttpStatus.OK);
     }
@@ -59,6 +61,7 @@ public class TankController {
      */
     // Endpoint para criar um novo tanque
     @PostMapping("/create")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<Tank> createTank(@RequestBody CreateTankRequest request){
         Tank tank = tankService.createTank(request);
         return new ResponseEntity<>(tank , HttpStatus.CREATED);
@@ -73,6 +76,7 @@ public class TankController {
      */
     // Endpoint para deletar um tanque pelo número
     @DeleteMapping("/{number}")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<Integer> deleteTank(@PathVariable int number){
         tankService.deleteTank(number);
         return new ResponseEntity<Integer>(number, HttpStatus.OK);
@@ -85,6 +89,7 @@ public class TankController {
      * @return Uma mensagem indicando sucesso na operação.
      */
     @PostMapping("/connectToTank")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> connectByName(@RequestBody Map<String, Integer> connectMap){
         tankService.connectByNumber(connectMap.get("startTankNumber"), connectMap.get("endTankNumber"));
         return  new ResponseEntity<>("Tanks conectados!", HttpStatus.OK);
@@ -98,6 +103,7 @@ public class TankController {
      * @return Uma mensagem indicando sucesso na operação.
      */
     @PostMapping("/connectToEntradaESaida")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> connectTankToEntradaESaida(@RequestBody Map<String, Object> connectMap){
         Integer tankNumber = (Integer) connectMap.get("tankNumber");
         String entradaESaidaName = (String) connectMap.get("entradaESaidaName");
@@ -113,6 +119,7 @@ public class TankController {
      * @return Uma mensagem indicando sucesso na operação.
      */
     @DeleteMapping("/deleteConnection")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> deleteConnection(@RequestBody Map<String, Integer> deleteMap){
         tankService.deleteConnection(deleteMap.get("startTankNumber"), deleteMap.get("endTankNumber"));
         return new ResponseEntity<>("Conexão deletada", HttpStatus.OK);
@@ -127,6 +134,7 @@ public class TankController {
      * @return Uma mensagem indicando sucesso na operação.
      */
     @DeleteMapping("/deleteTankEntradaESaidaConnection")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> deleteTankEntradaESaidaConnection(@RequestBody Map<String, Object> deleteMap){
         Integer tankNumber = (Integer) deleteMap.get("tankNumber");
         String entradaESaidaName = (String) deleteMap.get("entradaESaidaName");
@@ -143,6 +151,7 @@ public class TankController {
      * @return Uma mensagem indicando sucesso na operação.
      */
     @PostMapping("/connectToHub")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> connectToHub(@RequestBody Map<String, Object> connectMap){
         Integer tankNumber = (Integer) connectMap.get("tankNumber");
         String hubName = (String) connectMap.get("hubName");
@@ -158,6 +167,7 @@ public class TankController {
      * @return Uma mensagem indicando sucesso na operação.
      */
     @DeleteMapping("/deleteConnectionToHub")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> deleteConnectionToHub(@RequestBody Map<String, Object> disconnectMap) {
 
         Integer tankNumber = (Integer) disconnectMap.get("tankNumber");
@@ -168,6 +178,7 @@ public class TankController {
     }
 
     @PutMapping("/{number}/updatePosition")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<Tank> updateTankPosition(@PathVariable int number, @RequestBody UpdateTankPositionRequest request) {
         Tank updatedTank = tankService.updateTankPosition(number, request.getPositionX(), request.getPositionY());
         return new ResponseEntity<>(updatedTank, HttpStatus.OK);

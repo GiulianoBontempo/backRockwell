@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +38,7 @@ public class GenericEdgeController {
 
     // Endpoint para criar um novo HUB
     @PostMapping("/createEdge")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> createEdges(@RequestBody Map<String, Object> connectMap){
         try {
             String typeStart = (String) connectMap.get("typeStart");

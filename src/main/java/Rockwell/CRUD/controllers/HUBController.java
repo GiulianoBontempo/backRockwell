@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,6 +54,7 @@ public class HUBController {
 
     // Endpoint para obter todos os HUBs
     @GetMapping("/")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<List<HUB>> hubIndex(){
         return new ResponseEntity<List<HUB>>(hubService.getAllHubs(), HttpStatus.OK);
     }
@@ -66,6 +68,7 @@ public class HUBController {
 
     // Endpoint para obter um HUB pelo nome
     @GetMapping("/{name}")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<HUBDTO> getHubByName(@PathVariable String name){
         HUB hub = hubService.getHubByName(name);
 
@@ -85,6 +88,7 @@ public class HUBController {
 
     // Endpoint para criar um novo HUB
     @PostMapping("/create")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<HUBDTO> createHub(@RequestBody CreateHUBRequest request){
         HUB hub = hubService.createHub(request);
         HUBDTO responseHub = new HUBDTO(hub.getName());
@@ -102,6 +106,7 @@ public class HUBController {
 
     // Endpoint para deletar um HUB pelo nome
     @DeleteMapping("/{name}")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> deleteHub(@PathVariable String name) {
         hubService.deleteHub(name);
         return new ResponseEntity<>("Hub deleted successfully", HttpStatus.OK);
@@ -117,6 +122,7 @@ public class HUBController {
     
     // Endpoint para conectar um HUB a um tanque
     @PostMapping("/connectToTank")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> connectToTank(@RequestBody HUBToTankRequest request){
 
         String hubName = request.getName();
@@ -142,6 +148,7 @@ public class HUBController {
 
     // Endpoint para conectar um HUB a um EntradaESaida
     @PostMapping("/connectToEntradaESaida")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> connectToEntradaESaida(@RequestBody HubToEntradaESaidaRequest request){
 
         String hubName = request.getHubName();
@@ -166,6 +173,7 @@ public class HUBController {
 
     // Endpoint para conectar um HUB a outro HUB
     @PostMapping("/connectToHub")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> connectToHub(@RequestBody HUBToHUBRequest request){
 
         String startHubName = request.getStartHubName();
@@ -192,6 +200,7 @@ public class HUBController {
 
     // Endpoint para deletar a conexão entre um HUB a um tanque
     @DeleteMapping("/deleteConnectionToTank")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> deleteConnectionToTank(@RequestBody HUBToTankRequest request){
 
         String hubName = request.getName();
@@ -217,6 +226,7 @@ public class HUBController {
 
     // Endpoint para deletar a conexão entre um HUB a um entradaESaida
     @DeleteMapping("/deleteConnectionToEntradaESaida")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> deleteConnectionToEntradaESaida(@RequestBody HubToEntradaESaidaRequest request){
 
         String hubName = request.getHubName();
@@ -242,6 +252,7 @@ public class HUBController {
 
     // Endpoint para deletar a conexão entre um HUB a outro HUB
     @DeleteMapping("/deleteConnectionToHub")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> deleteConnectionToHub(@RequestBody HUBToHUBRequest request){
 
         String startHubName = request.getStartHubName();
@@ -266,6 +277,7 @@ public class HUBController {
      */
 
     @PutMapping("/{name}/updatePosition")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
         public ResponseEntity<HUB> updateHubPosition(@PathVariable String name, @RequestBody UpdateHubPositionRequest request) {
                 HUB updatedHub = hubService.updateHubPosition(name, request.getPositionX(), request.getPositionY());
                 return new ResponseEntity<>(updatedHub, HttpStatus.OK);

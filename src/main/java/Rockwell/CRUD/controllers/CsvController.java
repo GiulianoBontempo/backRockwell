@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,6 +41,7 @@ public class CsvController {
 
     // Endpoint para criar um novo HUB
     @PostMapping("/createNodes")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> createNodes(@RequestParam("file") MultipartFile file){
         try {
             // Verificação se o arquivo é csv e chamando o processamento
@@ -66,6 +68,7 @@ public class CsvController {
 
     // Endpoint para criar um novo HUB
     @PostMapping("/createEdges")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> createEdges(@RequestParam("file") MultipartFile file){
         try {
             // Verificação se o arquivo é csv e chamando o processamento
