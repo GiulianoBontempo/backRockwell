@@ -4,7 +4,6 @@ import Rockwell.CRUD.models.HUB;
 import Rockwell.CRUD.queries.GetAllConnectionsQueryResult;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 // Importações de classes necessárias
@@ -39,9 +38,8 @@ public interface HUBRepository extends Neo4jRepository<HUB, Long> {
      * @param tankNumber Número do Tank
      */
 
-    @Query("MATCH (hub:HUB {name: $hubName}), (tank:Tank {number: $tankNumber}) " + 
-            "CREATE (hub)-[:CONNECTED_TO]->(tank)")
-    void createConnectionToTank(String hubName, int tankNumber);
+     @Query("MATCH (h:HUB {name: $hubName}), (t:Tank {number: $tankNumber}) CREATE (h)-[:CONNECTED_TO]->(t)")
+     void connectToTank(String hubName, int tankNumber);
 
 
     /**
@@ -113,6 +111,12 @@ public interface HUBRepository extends Neo4jRepository<HUB, Long> {
             "DELETE r")
     void deleteConnectionToHub(String startHubName, String endHubName);
 
+    @Query("MATCH (h:HUB {name: $hubName}), (v:Valve {name: $valveName}) CREATE (h)-[:CONNECTED_TO]->(v)")
+    void connectHUBToValve(String hubName, String valveName);
+
+    @Query("MATCH (h:HUB {name: $hubName})-[r:CONNECTED_TO]->(v:Valve {name: $valveName}) DELETE r")
+    void deleteConnectionToValve(String hubName, String valveName);
+
     @Query("MATCH (a)-[:CONNECTED_TO]->(b) " + 
             "RETURN " + 
                 "labels(a) AS sourceNodeType, " +
@@ -127,7 +131,8 @@ public interface HUBRepository extends Neo4jRepository<HUB, Long> {
                     "WHEN 'Tank' IN labels(b) THEN toString(b.number) " +
                     "ELSE null " +
                     "END AS targetNameOrNumber")
-    List<GetAllConnectionsQueryResult> getAllConnections();
+        List<GetAllConnectionsQueryResult> getAllConnections();
+
     
 }
 

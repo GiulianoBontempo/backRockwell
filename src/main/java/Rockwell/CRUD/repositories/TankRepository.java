@@ -66,9 +66,8 @@ public interface TankRepository extends Neo4jRepository<Tank, Long> {
      * @param tankNumber Número do Tank
      * @param hubName Nome do Hub
      */
-     @Query("MATCH (tank:Tank {number: $tankNumber}), (hub:HUB {name: $hubName}) " +
-            "MERGE (tank)-[:CONNECTED_TO]->(hub)")
-    void connectTankToHub(Integer tankNumber, String hubName);
+    @Query("MATCH (t:Tank {number: $tankNumber}), (h:HUB {name: $hubName}) CREATE (t)-[:CONNECTED_TO]->(h)")
+      void connectToHub(int tankNumber, String hubName);
 
      /**
      * Deleta a conexão entre um Tank e um Hub.
@@ -78,6 +77,13 @@ public interface TankRepository extends Neo4jRepository<Tank, Long> {
     @Query("MATCH (tank:Tank {number: $tankName})-[r:CONNECTED_TO]->(hub:HUB {name: $hubName}) " +
            "DELETE r")
     void deleteConnectionToHub(Integer tankName, String hubName);
+
+
+    @Query("MATCH (t:Tank {number: $tankNumber}), (v:Valve {name: $valveName}) CREATE (t)-[:CONNECTED_TO]->(v)")
+    void connectTankToValve(int tankNumber, String valveName);
+
+    @Query("MATCH (t:Tank {number: $tankNumber})-[r:CONNECTED_TO]->(v:Valve {name: $valveName}) DELETE r")
+    void deleteConnectionToValve(int tankNumber, String valveName);
 
 
 

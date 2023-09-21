@@ -2,6 +2,7 @@ package Rockwell.CRUD.controllers;
 
 // Importações das classes e anotações necessárias
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import Rockwell.CRUD.models.HUB;
@@ -123,18 +123,11 @@ public class HUBController {
     // Endpoint para conectar um HUB a um tanque
     @PostMapping("/connectToTank")
     @CrossOrigin(origins = "*", allowedHeaders = { "*" })
-    public ResponseEntity<String> connectToTank(@RequestBody HUBToTankRequest request){
-
-        String hubName = request.getName();
-        int tankNumber = request.getNumber();
-
-        if(hubService.checkIfConnectedToTank(hubName, tankNumber)){
-            return new ResponseEntity<String>("HUB already connected to tank", HttpStatus.NOT_ACCEPTABLE);
-        }
-
-        hubService.createConnectionToTank(hubName, tankNumber);
-
-        return new ResponseEntity<String>(hubName + " -> " + tankNumber, HttpStatus.OK);
+    public ResponseEntity<String> connectToTank(@RequestBody Map<String, String> connectMap) {
+        String hubName = connectMap.get("hubName");
+        int tankNumber = Integer.parseInt(connectMap.get("tankNumber"));
+        hubService.connectToTank(hubName, tankNumber);
+        return new ResponseEntity<>("HUB conectado ao Tank", HttpStatus.OK);
     }
 
 
@@ -268,6 +261,22 @@ public class HUBController {
         return new ResponseEntity<String>(startHubName + " and " + endHubName + " disconnected", HttpStatus.OK);
     }
 
+    @PostMapping("/connectToValve")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
+    public ResponseEntity<String> connectHUBToValve(@RequestBody Map<String, String> connectMap) {
+        hubService.connectHUBToValve(connectMap.get("hubName"), connectMap.get("valveName"));
+        return new ResponseEntity<>("HUB conectado ao Valve", HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/deleteConnectionToValve")
+    public ResponseEntity<String> deleteConnectionBetweenHUBAndValve(@RequestBody Map<String, String> deleteMap) {
+        String hubName = deleteMap.get("hubName");
+        String valveName = deleteMap.get("valveName");
+        hubService.deleteConnectionToValve(hubName, valveName);
+        return new ResponseEntity<>("Conexão entre HUB e Valve deletada", HttpStatus.OK);
+    }
+
     /**
      * Endpoint para atualizar a posição de um HUB.
      *
@@ -278,8 +287,8 @@ public class HUBController {
 
     @PutMapping("/{name}/updatePosition")
     @CrossOrigin(origins = "*", allowedHeaders = { "*" })
-        public ResponseEntity<HUB> updateHubPosition(@PathVariable String name, @RequestBody UpdateHubPositionRequest request) {
-                HUB updatedHub = hubService.updateHubPosition(name, request.getPositionX(), request.getPositionY());
-                return new ResponseEntity<>(updatedHub, HttpStatus.OK);
+    public ResponseEntity<HUB> updateHubPosition(@PathVariable String name, @RequestBody UpdateHubPositionRequest request) {
+        HUB updatedHub = hubService.updateHubPosition(name, request.getPositionX(), request.getPositionY());
+        return new ResponseEntity<>(updatedHub, HttpStatus.OK);
     }   
 }

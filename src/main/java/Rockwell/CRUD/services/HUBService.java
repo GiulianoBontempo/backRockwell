@@ -91,8 +91,8 @@ public class HUBService {
      * @param hubName O nome do HUB.
      * @param tankNumber O número do tanque.
      */
-    public void createConnectionToTank(String hubName, int tankNumber){
-        hubRepository.createConnectionToTank(hubName, tankNumber);
+    public void connectToTank(String hubName, int tankNumber) {
+        hubRepository.connectToTank(hubName, tankNumber);
     }
 
 
@@ -168,6 +168,17 @@ public class HUBService {
     public void deleteConnectionToHub(String startHubName, String endHubName){
         hubRepository.deleteConnectionToHub(startHubName, endHubName);
     }
+
+
+    public void connectHUBToValve(String hubName, String valveName) {
+        hubRepository.connectHUBToValve(hubName, valveName);
+    }
+
+
+    public void deleteConnectionToValve(String hubName, String valveName) {
+        hubRepository.deleteConnectionToValve(hubName, valveName);
+    }
+    
 
     public HUB updateHubPosition(String name, Integer positionX, Integer positionY){
         HUB hub = getHubByName(name);

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import Rockwell.CRUD.models.HUB;
 import Rockwell.CRUD.models.Tank;
 import Rockwell.CRUD.requests.CreateTankRequest;
 import Rockwell.CRUD.requests.UpdateTankPositionRequest;
@@ -150,13 +149,13 @@ public class TankController {
      * @param connectMap Mapa contendo o número do tanque e o nome do HUB a serem conectados.
      * @return Uma mensagem indicando sucesso na operação.
      */
-    @PostMapping("/connectToHub")
+    @PostMapping("/connectToHUB")
     @CrossOrigin(origins = "*", allowedHeaders = { "*" })
-    public ResponseEntity<String> connectToHub(@RequestBody Map<String, Object> connectMap){
-        Integer tankNumber = (Integer) connectMap.get("tankNumber");
-        String hubName = (String) connectMap.get("hubName");
-        tankService.connectTankToHub(tankNumber, hubName);
-        return new ResponseEntity<>("Conexao criada com sucesso", HttpStatus.OK);
+    public ResponseEntity<String> connectToHub(@RequestBody Map<String, String> connectMap) {
+        int tankNumber = Integer.parseInt(connectMap.get("tankNumber"));
+        String hubName = connectMap.get("hubName");
+        tankService.connectToHub(tankNumber, hubName);
+        return new ResponseEntity<>("Tank conectado ao HUB", HttpStatus.OK);
     }
     
 
@@ -175,6 +174,25 @@ public class TankController {
         tankService.deleteConnectionToHub(tankNumber, hubName);
         return new ResponseEntity<>("Tank disconnected from Hub successfully", HttpStatus.OK);
 
+    }
+
+    @PostMapping("/connectToValve")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
+    public ResponseEntity<String> connectTankToValve(@RequestBody Map<String, Object> connectMap) {
+        int tankNumber = (Integer) connectMap.get("tankNumber");
+        String valveName = (String) connectMap.get("valveName");
+        tankService.connectTankToValve(tankNumber, valveName);
+        return new ResponseEntity<>("Tank conectado ao Valve", HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/deleteConnectionToValve")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
+    public ResponseEntity<String> deleteConnectionToValve(@RequestBody Map<String, String> deleteMap) {
+        int tankNumber = Integer.parseInt(deleteMap.get("tankNumber"));
+        String valveName = deleteMap.get("valveName");
+        tankService.deleteConnectionToValve(tankNumber, valveName);
+        return new ResponseEntity<>("Conexão entre Tank e Valve deletada", HttpStatus.OK);
     }
 
     @PutMapping("/{number}/updatePosition")

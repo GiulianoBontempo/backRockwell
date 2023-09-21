@@ -125,8 +125,8 @@ public class TankService {
      * @param tankNumber O número do tanque a ser conectado.
      * @param hubName O nome do HUB ao qual o tanque será conectado.
      */
-   public void connectTankToHub(Integer tankNumber, String hubName) {
-    tankRepository.connectTankToHub(tankNumber, hubName);
+    public void connectToHub(int tankNumber, String hubName) {
+        tankRepository.connectToHub(tankNumber, hubName);
     }
 
      /**
@@ -137,6 +137,15 @@ public class TankService {
      */
     public void deleteConnectionToHub(int tankNumber, String hubName) {
         tankRepository.deleteConnectionToHub(tankNumber, hubName);
+    }
+
+
+    public void connectTankToValve(int tankNumber, String valveName) {
+        tankRepository.connectTankToValve(tankNumber, valveName);
+    }
+
+    public void deleteConnectionToValve(int tankNumber, String valveName) {
+        tankRepository.deleteConnectionToValve(tankNumber, valveName);
     }
 
     public Tank updateTankPosition(int number, Integer positionX, Integer positionY){

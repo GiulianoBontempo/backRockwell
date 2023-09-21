@@ -62,6 +62,10 @@ public class EntradaESaidaService {
         entradaESaidaRepository.deleteAll();
     }
 
+    public void deleteByName(String entradaESaidaName) {
+        entradaESaidaRepository.deleteByName(entradaESaidaName);
+    }
+
 
     /**
      * Método para conectar dois entradas ou saidas pelo nome.
@@ -96,8 +100,25 @@ public class EntradaESaidaService {
      * @param name1 O nome do item a ser conectado.
      * @param name2 O nome do HUB ao qual o item será conectado.
      */
-    public void connectEntradaOuSaidaToHub(String itemName, String hubName){
-        entradaESaidaRepository.connectEntradaOuSaidaToHub(itemName, hubName);
+    public void connectToHub(String entradaESaidaName, String hubName) {
+        entradaESaidaRepository.connectToHub(entradaESaidaName, hubName);
+    }
+
+    public void connectEntradaESaidaToValve(String entradaESaidaName, String valveName) {
+        entradaESaidaRepository.connectEntradaESaidaToValve(entradaESaidaName, valveName);
+    }
+
+    public void deleteConnectionToValve(String entradaESaidaName, String valveName) {
+        entradaESaidaRepository.deleteConnectionToValve(entradaESaidaName, valveName);
+    }
+
+    public void deleteConnectionToHub(String entradaESaidaName, String hubName) {
+        entradaESaidaRepository.deleteConnectionToHub(entradaESaidaName, hubName);
+    }
+
+
+    public void deleteConnectionToTank(String entradaESaidaName, int tankNumber) {
+        entradaESaidaRepository.deleteConnectionToTank(entradaESaidaName, tankNumber);
     }
 
     public EntradaESaida updateEntradaESaidaPosition(String name, Integer positionX, Integer positionY){

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/Items")
+@RequestMapping("/api/v1/EntradaESaida")
 public class EntradaESaidaController {
 
     @Autowired
@@ -80,6 +80,12 @@ public class EntradaESaidaController {
         entradaESaidaService.deleteAllEntradasOuSaidas();
     }
 
+    @DeleteMapping("/deleteByName")
+    public ResponseEntity<String> deleteValveByName(@RequestBody Map<String, String> deleteMap) {
+        entradaESaidaService.deleteByName(deleteMap.get("name"));
+        return new ResponseEntity<>("Entrada ou Saida deletada", HttpStatus.OK);
+    }
+
     /**
      * Endpoint para deletar uma conexão entre entradas e saídas pelo nome.
      *
@@ -100,10 +106,9 @@ public class EntradaESaidaController {
      * @return Uma mensagem de sucesso.
      */
     @PostMapping("/connectToHUB")
-    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
-    public ResponseEntity<String> connectEntradaOuSaidaToHub(@RequestBody Map<String, String> connectMap){
-        entradaESaidaService.connectEntradaOuSaidaToHub(connectMap.get("Item"), connectMap.get("HUB"));
-        return new ResponseEntity<>("Entrada e Saída conectadas ao HUB", HttpStatus.OK);
+    public ResponseEntity<String> connectToHub(@RequestBody Map<String, String> connectMap) {
+        entradaESaidaService.connectToHub(connectMap.get("entradaESaidaName"), connectMap.get("hubName"));
+        return new ResponseEntity<>("EntradaESaida conectada ao HUB", HttpStatus.OK);
     }
 
 
@@ -115,6 +120,40 @@ public class EntradaESaidaController {
         Integer tankNumber = (Integer) connectMap.get("tankNumber");
         entradaESaidaService.connectEntradaESaidaToTank(entradaESaidaName, tankNumber);
         return new ResponseEntity<>("Entrada e Saída conectadas ao tanque", HttpStatus.OK);
+    }
+
+    @PostMapping("/connectToValve")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
+    public ResponseEntity<String> connectEntradaESaidaToValve(@RequestBody Map<String, String> connectMap) {
+        entradaESaidaService.connectEntradaESaidaToValve(connectMap.get("entradaESaidaName"), connectMap.get("valveName"));
+        return new ResponseEntity<>("EntradaESaida conectada ao Valve", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteConnectionToValve")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
+    public ResponseEntity<String> deleteConnectionToValve(@RequestBody Map<String, String> deleteMap) {
+        String entradaESaidaName = deleteMap.get("entradaESaidaName");
+        String valveName = deleteMap.get("valveName");
+        entradaESaidaService.deleteConnectionToValve(entradaESaidaName, valveName);
+        return new ResponseEntity<>("Conexão entre EntradaESaida e Valve deletada", HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/deleteConnectionToHub")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
+    public ResponseEntity<String> deleteConnectionToHub(@RequestBody Map<String, String> deleteMap) {
+        entradaESaidaService.deleteConnectionToHub(deleteMap.get("entradaESaidaName"), deleteMap.get("hubName"));
+        return new ResponseEntity<>("Conexão entre EntradaESaida e HUB deletada", HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/deleteConnectionToTank")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
+    public ResponseEntity<String> deleteConnectionToTank(@RequestBody Map<String, String> deleteMap) {
+        String entradaESaidaName = deleteMap.get("entradaESaidaName");
+        int tankNumber = Integer.parseInt(deleteMap.get("tankNumber"));
+        entradaESaidaService.deleteConnectionToTank(entradaESaidaName, tankNumber);
+        return new ResponseEntity<>("Conexão entre EntradaESaida e Tank deletada", HttpStatus.OK);
     }
 
     @PutMapping("/{name}/updatePosition")

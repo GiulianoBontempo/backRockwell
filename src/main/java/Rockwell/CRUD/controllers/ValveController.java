@@ -11,13 +11,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import Rockwell.CRUD.models.HUB;
 import Rockwell.CRUD.models.Valve;
 import Rockwell.CRUD.requests.CreateValveRequest;
 import Rockwell.CRUD.services.ValveService;
@@ -57,6 +54,14 @@ public class ValveController {
         valveService.deleteAllValves();
         return new ResponseEntity<>("Valve deletada", HttpStatus.OK);
     }
+
+    @DeleteMapping("/deleteValve")
+    public ResponseEntity<String> deleteValveByName(@RequestBody Map<String, String> deleteMap) {
+        valveService.deleteValveByName(deleteMap.get("name"));
+        return new ResponseEntity<>("Valve deletada", HttpStatus.OK);
+    }
+
+    
 
     @PostMapping("/connectToValve")
     @CrossOrigin(origins = "*", allowedHeaders = { "*" })
@@ -102,5 +107,19 @@ public class ValveController {
     public ResponseEntity<String> deleteValveToEntradaESaida(@RequestBody Map<String, String> deleteMap){
         valveService.deleteConnectionToEntradaESaida(deleteMap.get("valve"), deleteMap.get("entradaESaida"));
         return new ResponseEntity<>("Conexão deletada", HttpStatus.OK);
+    }
+
+    @PostMapping("/connectToHub")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
+    public ResponseEntity<String> connectToHub(@RequestBody Map<String, String> connectionMap) {
+        valveService.connectToHub(connectionMap.get("valveName"), connectionMap.get("hubName"));
+        return new ResponseEntity<>("Valve conectada ao HUB", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteConnectionToHub")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
+    public ResponseEntity<String> deleteConnectionToHub(@RequestBody Map<String, String> connectionMap) {
+        valveService.deleteConnectionToHub(connectionMap.get("valveName"), connectionMap.get("hubName"));
+        return new ResponseEntity<>("Conexão entre Valve e HUB deletada", HttpStatus.OK);
     }
 }

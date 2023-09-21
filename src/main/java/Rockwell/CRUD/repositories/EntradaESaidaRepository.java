@@ -6,7 +6,6 @@ import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 
 
-import Rockwell.CRUD.models.HUB;
 import Rockwell.CRUD.models.EntradaESaida;
 
 
@@ -43,11 +42,25 @@ public interface EntradaESaidaRepository extends Neo4jRepository<EntradaESaida, 
      * @param itemName ID do Item
      * @param hubName Nome do Hub
      */
-    @Query("MATCH (i:EntradaESaida { name: $itemName }), (h:Hub { name: $hubName }) CREATE (i)-[:CONNECTED_TO]->(h)")
-    void connectEntradaOuSaidaToHub(String itemName, String hubName);
+    @Query("MATCH (e:EntradaESaida {name: $entradaESaidaName}), (h:HUB {name: $hubName}) CREATE (e)-[:CONNECTED_TO]->(h)")
+    void connectToHub(String entradaESaidaName, String hubName);
+
+    @Query("MATCH (v:EntradaESaida {name: $EntradaESaidaName}) DETACH DELETE v")
+      void deleteByName(String EntradaESaidaName);
 
     @Query("MATCH (i:EntradaESaida { name: $entradaESaidaName }), (t:Tank { name: $tankNumber }) CREATE (i)-[:CONNECTED_TO]->(t)")
     void connectEntradaESaidaToTank(String entradaESaidaName, Integer tankNumber);
 
-   
+    @Query("MATCH (e:EntradaESaida {name: $entradaESaidaName}), (v:Valve {name: $valveName}) CREATE (e)-[:CONNECTED_TO]->(v)")
+    void connectEntradaESaidaToValve(String entradaESaidaName, String valveName);
+
+    @Query("MATCH (e:EntradaESaida {name: $entradaESaidaName})-[r:CONNECTED_TO]->(v:Valve {name: $valveName}) DELETE r")
+    void deleteConnectionToValve(String entradaESaidaName, String valveName);
+
+    @Query("MATCH (e:EntradaESaida {name: $entradaESaidaName})-[r:CONNECTED_TO]->(h:HUB {name: $hubName}) DELETE r")
+    void deleteConnectionToHub(String entradaESaidaName, String hubName);
+
+    @Query("MATCH (e:EntradaESaida {name: $entradaESaidaName})-[r:CONNECTED_TO]->(t:Tank {number: $tankNumber}) DELETE r")
+    void deleteConnectionToTank(String entradaESaidaName, int tankNumber);
 }
+   

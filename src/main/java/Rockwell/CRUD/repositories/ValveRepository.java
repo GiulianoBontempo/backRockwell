@@ -13,6 +13,9 @@ public interface ValveRepository extends Neo4jRepository<Valve, Long>{
        "MERGE (valve)-[:CONNECTED_TO]->(tank)")
     void connectToTank(String valveName, int tankNumber);
 
+    @Query("MATCH (v:Valve {name: $valveName}) DETACH DELETE v")
+      void deleteValve(String valveName);
+      
     @Query("MATCH (valve:Valve { name: $valveName }), (entradaESaida:EntradaESaida { name: $entradaESaidaName }) " +
     "MERGE (valve)-[:CONNECTED_TO]->(entradaESaida)")
    void connectToEntradaESaida(String valveName, String entradaESaidaName);
@@ -38,4 +41,12 @@ public interface ValveRepository extends Neo4jRepository<Valve, Long>{
 
     @Query("MATCH (valve:Valve { name: $valveName }) DETACH DELETE valve")
     void deleteValveByName(String valveName);
+
+
+    @Query("MATCH (v:Valve {name: $valveName}), (h:HUB {name: $hubName}) MERGE (v)-[:CONNECTED_TO]->(h)")
+    void connectToHub(String valveName, String hubName);
+
+    
+    @Query("MATCH (v:Valve {name: $valveName})-[r:CONNECTED_TO]->(h:HUB {name: $hubName}) DELETE r")
+    void deleteConnectionToHub(String valveName, String hubName);
 }

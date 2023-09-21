@@ -7,12 +7,14 @@ import org.springframework.stereotype.Service;
 import Rockwell.CRUD.requests.CreateEntradaESaidaRequest;
 import Rockwell.CRUD.requests.CreateHUBRequest;
 import Rockwell.CRUD.requests.CreateTankRequest;
+import Rockwell.CRUD.requests.CreateValveRequest;
 
 @Service
 public class CsvService {
     private final HUBService hubService;
     private final TankService tankService;
     private final EntradaESaidaService entradaESaidaService;
+    private final ValveService valveService;
 
     /**
      * Construtor para criar um novo HUBController com dependências injetadas.
@@ -20,11 +22,13 @@ public class CsvService {
      * @param hubService O serviço para o gerenciamento de HUBs.
      * @param tankService O serviço para o gerenciamento de tanques.
      * @param entradaESaidaService O serviço para o gerenciamento de tanques.
+     * @param valveService O serviço para o gerenciamento de válvulas.
      */
-    public CsvService(HUBService hubService, TankService tankService, EntradaESaidaService entradaESaidaService) {
+    public CsvService(HUBService hubService, TankService tankService, EntradaESaidaService entradaESaidaService, ValveService valveService) {
         this.hubService = hubService;
         this.tankService = tankService;
         this.entradaESaidaService = entradaESaidaService;
+        this.valveService = valveService;
     }
 
     public void createNodes(List<String[]> content){
@@ -47,6 +51,12 @@ public class CsvService {
                 tankRequest.setNumber(Integer.parseInt(row[2]));
                 tankService.createTank(tankRequest);
                 break;
+
+                case "Valve":
+                CreateValveRequest valveRequest = new CreateValveRequest();
+                valveRequest.setName(row[2]);
+                valveService.createValve(valveRequest);
+                break;
             }
 
         }
@@ -66,19 +76,28 @@ public class CsvService {
                     break;
 
                     case "Tank":
-                    hubService.createConnectionToTank(row[1], Integer.parseInt(row[3]));
+                    hubService.connectToTank(row[1], Integer.parseInt(row[3]));
                     break;
+
+                    case "Valve":
+                    hubService.connectHUBToValve(row[1], row[3]);
+                    break;
+
                 }
                 break;
 
                 case "EntradaESaida":
                 switch(row[2]){
                     case "HUB":
-                    entradaESaidaService.connectEntradaOuSaidaToHub(row[1], row[3]);
+                    entradaESaidaService.connectToHub(row[1], row[3]);
                     break;
 
                     case "EntradaESaida":
                     entradaESaidaService.connectByName(row[1], row[3]);
+                    break;
+
+                    case "Valve":
+                    entradaESaidaService.connectEntradaESaidaToValve(row[1], row[3]);
                     break;
                 }
                 break;
@@ -86,7 +105,7 @@ public class CsvService {
                 case "Tank":
                 switch(row[2]){
                     case "HUB":
-                    tankService.connectTankToHub(Integer.parseInt(row[1]), row[3]);
+                    tankService.connectToHub(Integer.parseInt(row[1]), row[3]);
                     break;
 
                     case "EntradaESaida":
@@ -95,6 +114,30 @@ public class CsvService {
 
                     case "Tank":
                     tankService.connectByNumber(Integer.parseInt(row[1]), Integer.parseInt(row[3]));
+                    break;
+
+                    case "Valve":
+                    tankService.connectTankToValve(Integer.parseInt(row[1]), row[3]);
+                    break;
+                }
+                break;
+
+                case "Valve":
+                switch(row[2]){
+                    case "Valve":
+                    valveService.connectToValve(row[1], row[3]);
+                    break;
+
+                    case "HUB":
+                    valveService.connectToHub(row[1], row[3]);
+                    break;
+
+                    case "EntradaESaida":
+                    valveService.connectToEntradaESaida(row[1], row[3]);
+                    break;
+
+                    case "Tank":
+                    valveService.connectToTank(row[1], Integer.parseInt(row[3]));
                     break;
                 }
                 break;

@@ -1,7 +1,5 @@
 package Rockwell.CRUD.services;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 @Service
@@ -9,6 +7,7 @@ public class GenericEdgeService {
     private final HUBService hubService;
     private final TankService tankService;
     private final EntradaESaidaService entradaESaidaService;
+    private final ValveService valveService;
 
     /**
      * Construtor para criar um novo HUBController com dependências injetadas.
@@ -16,27 +15,33 @@ public class GenericEdgeService {
      * @param hubService O serviço para o gerenciamento de HUBs.
      * @param tankService O serviço para o gerenciamento de tanques.
      * @param entradaESaidaService O serviço para o gerenciamento de tanques.
+     * @param valveService
      */
-    public GenericEdgeService(HUBService hubService, TankService tankService, EntradaESaidaService entradaESaidaService) {
+    public GenericEdgeService(HUBService hubService, TankService tankService, EntradaESaidaService entradaESaidaService, ValveService valveService) {
         this.hubService = hubService;
         this.tankService = tankService;
         this.entradaESaidaService = entradaESaidaService;
+        this.valveService = valveService;
     }
 
-    public void createEdges(String typeStart, String nameOrNumberStart, String typeEnd, String NameOrNumberEnd){
+    public void createEdges(String typeStart, String nameOrNumberStart, String typeEnd, String nameOrNumberEnd){
         switch(typeStart){
             case "HUB":
             switch(typeEnd){
                 case "HUB":
-                hubService.createConnectionToHub(nameOrNumberStart, NameOrNumberEnd);
+                hubService.createConnectionToHub(nameOrNumberStart, nameOrNumberEnd);
                 break;
 
                 case "EntradaESaida":
-                hubService.createConnectionToEntradaESaida(nameOrNumberStart, NameOrNumberEnd);
+                hubService.createConnectionToEntradaESaida(nameOrNumberStart, nameOrNumberEnd);
                 break;
 
                 case "Tank":
-                hubService.createConnectionToTank(nameOrNumberStart, Integer.parseInt(NameOrNumberEnd));
+                hubService.connectToTank(nameOrNumberStart, Integer.parseInt(nameOrNumberEnd));
+                break;
+
+                case "Valve":
+                hubService.connectHUBToValve(nameOrNumberStart, nameOrNumberEnd);
                 break;
             }
             break;
@@ -44,11 +49,15 @@ public class GenericEdgeService {
             case "EntradaESaida":
             switch(typeEnd){
                 case "HUB":
-                entradaESaidaService.connectEntradaOuSaidaToHub(nameOrNumberStart, NameOrNumberEnd);
+                entradaESaidaService.connectToHub(nameOrNumberStart, nameOrNumberEnd);
                 break;
 
                 case "EntradaESaida":
-                entradaESaidaService.connectByName(nameOrNumberStart, NameOrNumberEnd);
+                entradaESaidaService.connectByName(nameOrNumberStart, nameOrNumberEnd);
+                break;
+
+                case "Valve":
+                entradaESaidaService.connectEntradaESaidaToValve(nameOrNumberStart, nameOrNumberEnd);
                 break;
             }
             break;
@@ -56,15 +65,39 @@ public class GenericEdgeService {
             case "Tank":
             switch(typeEnd){
                 case "HUB":
-                tankService.connectTankToHub(Integer.parseInt(nameOrNumberStart), NameOrNumberEnd);
+                tankService.connectToHub(Integer.parseInt(nameOrNumberStart), nameOrNumberEnd);
                 break;
 
                 case "EntradaESaida":
-                tankService.connectTankToEntradaESaida(Integer.parseInt(nameOrNumberStart), NameOrNumberEnd);
+                tankService.connectTankToEntradaESaida(Integer.parseInt(nameOrNumberStart), nameOrNumberEnd);
                 break;
 
                 case "Tank":
-                tankService.connectByNumber(Integer.parseInt(nameOrNumberStart), Integer.parseInt(NameOrNumberEnd));
+                tankService.connectByNumber(Integer.parseInt(nameOrNumberStart), Integer.parseInt(nameOrNumberEnd));
+                break;
+
+                case "Valve":
+                tankService.connectTankToValve(Integer.parseInt(nameOrNumberStart), nameOrNumberEnd);
+                break;
+            }
+            break;
+
+            case "Valve":
+            switch(typeEnd){
+                case "Valve":
+                valveService.connectToValve(nameOrNumberStart, nameOrNumberEnd);
+                break;
+
+                case "HUB":
+                valveService.connectToHub(nameOrNumberStart, nameOrNumberEnd);
+                break;
+
+                case "EntradaESaida":
+                valveService.connectToEntradaESaida(nameOrNumberStart, nameOrNumberEnd);
+                break;
+
+                case "Tank":
+                valveService.connectToTank(nameOrNumberStart, Integer.parseInt(nameOrNumberEnd));
                 break;
             }
             break;

@@ -33,11 +33,15 @@ public class ValveService {
         valveRepository.deleteAll();
     }
 
+    public void deleteValveByName(String valveName) {
+        valveRepository.deleteValveByName(valveName);
+    }
+
     public Valve createValve(CreateValveRequest request){
         Valve valve = new Valve();
 
-        long generatedId = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
-        valve.setId(generatedId);
+        //long generatedId = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+        //valve.setId(generatedId);
 
         valve.setName(request.getName());
         valve.setPositionX(request.getPositionX());
@@ -75,5 +79,14 @@ public class ValveService {
 
      public void deleteConnectionToValve(String valveName, String valveName2){
             valveRepository.deleteConnectionToValve(valveName, valveName2);
+    }
+
+
+    public void connectToHub(String valveName, String hubName) {
+        valveRepository.connectToHub(valveName, hubName);
+    }
+
+    public void deleteConnectionToHub(String valveName, String hubName) {
+        valveRepository.deleteConnectionToHub(valveName, hubName);
     }
 }

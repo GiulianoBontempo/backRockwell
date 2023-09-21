@@ -7,6 +7,7 @@ import org.springframework.data.neo4j.core.schema.Node;
 @Node
 public class Valve {
     @Id 
+    @GeneratedValue
     private long id;
     private String name;
     private Integer positionX;
