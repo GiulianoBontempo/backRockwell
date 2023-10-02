@@ -21,7 +21,7 @@ public class GenericEdgeController {
 
     /**
      * Construtor para criar um novo HUBController com dependências injetadas.
-     * @param csvService O serviço para o gerenciamento de tanques.
+     * @param genericEdgeService O serviço para o gerenciamento de arestas genéricas.
      */
 
     // Injeção de dependências dos serviços HUBService e TankService

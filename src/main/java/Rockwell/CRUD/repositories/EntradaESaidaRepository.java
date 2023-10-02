@@ -62,5 +62,9 @@ public interface EntradaESaidaRepository extends Neo4jRepository<EntradaESaida, 
 
     @Query("MATCH (e:EntradaESaida {name: $entradaESaidaName})-[r:CONNECTED_TO]->(t:Tank {number: $tankNumber}) DELETE r")
     void deleteConnectionToTank(String entradaESaidaName, int tankNumber);
+
+
+    @Query("MATCH (e:EntradaESaida {name: $currentName}) SET e.name = $newName RETURN e")
+    EntradaESaida updateName(String currentName, String newName);
 }
    

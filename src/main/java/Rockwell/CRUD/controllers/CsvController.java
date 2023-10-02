@@ -35,7 +35,7 @@ public class CsvController {
      /**
      * Endpoint para criar um novo HUB.
      *
-     * @param csvFile O pedido contendo informações para criar um novo HUB.
+     * @param file O pedido contendo informações para criar um novo HUB.
      * @return ResponseEntity<String> com feedback da operação.
      */
 
@@ -62,7 +62,7 @@ public class CsvController {
     /**
      * Endpoint para criar um novo HUB.
      *
-     * @param csvFile O pedido contendo informações para criar um novo HUB.
+     * @param file O pedido contendo informações para criar um novo HUB.
      * @return ResponseEntity<String> com feedback da operação.
      */
 

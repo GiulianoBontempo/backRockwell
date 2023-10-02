@@ -22,9 +22,12 @@ public class ConnectedToService {
         this.hubRepository = hubRepository;
     }
 
+    /**
+     * Função para retornar todas as arestas existentes
+     *
+     * @return todas as conexões
+     */
     public List<GetAllConnectionsQueryResult> getAllConnections(){
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        System.out.println(hubRepository.getAllConnections().get(0));
         return hubRepository.getAllConnections();
     }
 }

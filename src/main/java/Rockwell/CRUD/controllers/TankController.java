@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -176,6 +177,12 @@ public class TankController {
 
     }
 
+    /**
+     * Conecta um tanque a uma válvula especificada.
+     *
+     * @param connectMap Um mapa que contém as informações de conexão, incluindo o número do tanque e o nome da válvula.
+     * @return Um ResponseEntity com uma mensagem de confirmação.
+     */
     @PostMapping("/connectToValve")
     @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> connectTankToValve(@RequestBody Map<String, Object> connectMap) {
@@ -185,7 +192,12 @@ public class TankController {
         return new ResponseEntity<>("Tank conectado ao Valve", HttpStatus.OK);
     }
 
-
+    /**
+     * Deleta a conexão entre um tanque e uma válvula especificada.
+     *
+     * @param deleteMap Um mapa que contém as informações de conexão a serem excluídas, incluindo o número do tanque e o nome da válvula.
+     * @return Um ResponseEntity com uma mensagem de confirmação.
+     */
     @DeleteMapping("/deleteConnectionToValve")
     @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> deleteConnectionToValve(@RequestBody Map<String, String> deleteMap) {
@@ -195,10 +207,34 @@ public class TankController {
         return new ResponseEntity<>("Conexão entre Tank e Valve deletada", HttpStatus.OK);
     }
 
+
+
+    @PatchMapping("/updateName")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
+    public ResponseEntity<Tank> updateName(@RequestBody Map<String, String> updateMap) {
+        String currentName = updateMap.get("currentName");
+        String newName = updateMap.get("newName");
+        Tank updatedTank = tankService.updateName(currentName, newName);
+        return new ResponseEntity<>(updatedTank, HttpStatus.OK);
+    }
+
+      
+
+    /**
+     * Atualiza a posição de um tanque especificado.
+     *
+     * @param number O número do tanque a ser atualizado.
+     * @param request Um objeto que contém as informações de atualização da posição do tanque.
+     * @return Um ResponseEntity com o tanque atualizado.
+     */
     @PutMapping("/{number}/updatePosition")
     @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<Tank> updateTankPosition(@PathVariable int number, @RequestBody UpdateTankPositionRequest request) {
         Tank updatedTank = tankService.updateTankPosition(number, request.getPositionX(), request.getPositionY());
         return new ResponseEntity<>(updatedTank, HttpStatus.OK);
     }
+
+
+
+
 }

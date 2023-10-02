@@ -8,7 +8,9 @@ C:\Users\giuli\OneDrive\Desktop\backendRockwell\src\main\java\Rockwell\CRUD\repo
 C:\Users\giuli\OneDrive\Desktop\backendRockwell\src\main\java\Rockwell\CRUD\services\EntradaESaidaService.java
 C:\Users\giuli\OneDrive\Desktop\backendRockwell\src\main\java\Rockwell\CRUD\models\Tank.java
 C:\Users\giuli\OneDrive\Desktop\backendRockwell\src\main\java\Rockwell\CRUD\services\GenericEdgeService.java
+C:\Users\giuli\OneDrive\Desktop\backendRockwell\src\main\java\Rockwell\CRUD\controllers\GeneralController.java
 C:\Users\giuli\OneDrive\Desktop\backendRockwell\src\main\java\Rockwell\CRUD\queries\GetAllConnectionsQueryResult.java
+C:\Users\giuli\OneDrive\Desktop\backendRockwell\src\main\java\Rockwell\CRUD\repositories\GeneralRepository.java
 C:\Users\giuli\OneDrive\Desktop\backendRockwell\src\main\java\Rockwell\CRUD\services\HUBService.java
 C:\Users\giuli\OneDrive\Desktop\backendRockwell\src\main\java\Rockwell\CRUD\requests\CreateValveRequest.java
 C:\Users\giuli\OneDrive\Desktop\backendRockwell\src\main\java\Rockwell\CRUD\requests\HUBToTankRequest.java
@@ -37,3 +39,4 @@ C:\Users\giuli\OneDrive\Desktop\backendRockwell\src\main\java\Rockwell\CRUD\repo
 C:\Users\giuli\OneDrive\Desktop\backendRockwell\src\main\java\Rockwell\CRUD\requests\UpdateTankPositionRequest.java
 C:\Users\giuli\OneDrive\Desktop\backendRockwell\src\main\java\Rockwell\CRUD\controllers\ValveController.java
 C:\Users\giuli\OneDrive\Desktop\backendRockwell\src\main\java\Rockwell\CRUD\controllers\TankController.java
+C:\Users\giuli\OneDrive\Desktop\backendRockwell\src\main\java\Rockwell\CRUD\services\GeneralService.java

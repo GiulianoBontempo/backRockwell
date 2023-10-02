@@ -21,7 +21,6 @@ public class Tank {
         this.positionX = 0;  
         this.positionY = 0;  
     }
-    
 
     // Método getter para obter o identificador único do tanque
     public Long getId() {

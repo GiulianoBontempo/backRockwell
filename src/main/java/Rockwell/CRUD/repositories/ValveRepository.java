@@ -49,4 +49,8 @@ public interface ValveRepository extends Neo4jRepository<Valve, Long>{
     
     @Query("MATCH (v:Valve {name: $valveName})-[r:CONNECTED_TO]->(h:HUB {name: $hubName}) DELETE r")
     void deleteConnectionToHub(String valveName, String hubName);
+
+
+    @Query("MATCH (v:Valve {name: $currentName}) SET v.name = $newName RETURN v")
+    Valve updateName(String currentName, String newName);
 }

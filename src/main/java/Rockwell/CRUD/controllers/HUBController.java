@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -261,6 +262,12 @@ public class HUBController {
         return new ResponseEntity<String>(startHubName + " and " + endHubName + " disconnected", HttpStatus.OK);
     }
 
+    /**
+     * Conecta um HUB a uma válvula especificada.
+     *
+     * @param connectMap Um mapa que contém as informações de conexão, incluindo o nome do HUB e o nome da válvula.
+     * @return Um ResponseEntity com uma mensagem de confirmação.
+     */
     @PostMapping("/connectToValve")
     @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> connectHUBToValve(@RequestBody Map<String, String> connectMap) {
@@ -268,13 +275,29 @@ public class HUBController {
         return new ResponseEntity<>("HUB conectado ao Valve", HttpStatus.OK);
     }
 
-
+    /**
+     * Deleta a conexão entre um HUB e uma válvula especificada.
+     *
+     * @param deleteMap Um mapa que contém as informações de conexão a serem excluídas, incluindo o nome do HUB e o nome da válvula.
+     * @return Um ResponseEntity com uma mensagem de confirmação.
+     */
     @DeleteMapping("/deleteConnectionToValve")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> deleteConnectionBetweenHUBAndValve(@RequestBody Map<String, String> deleteMap) {
         String hubName = deleteMap.get("hubName");
         String valveName = deleteMap.get("valveName");
         hubService.deleteConnectionToValve(hubName, valveName);
         return new ResponseEntity<>("Conexão entre HUB e Valve deletada", HttpStatus.OK);
+    }
+
+
+     @PatchMapping("/updateName")
+     @CrossOrigin(origins = "*", allowedHeaders = { "*" })
+    public ResponseEntity<HUB> updateName(@RequestBody Map<String, String> updateMap) {
+        String currentName = updateMap.get("currentName");
+        String newName = updateMap.get("newName");
+        HUB updatedHUB = hubService.updateName(currentName, newName);
+        return new ResponseEntity<>(updatedHUB, HttpStatus.OK);
     }
 
     /**

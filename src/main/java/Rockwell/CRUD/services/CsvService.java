@@ -54,7 +54,7 @@ public class CsvService {
 
                 case "Valve":
                 CreateValveRequest valveRequest = new CreateValveRequest();
-                valveRequest.setName(row[2]);
+                valveRequest.setName(row[1]);
                 valveService.createValve(valveRequest);
                 break;
             }

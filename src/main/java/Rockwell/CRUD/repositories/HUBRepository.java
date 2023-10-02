@@ -133,6 +133,10 @@ public interface HUBRepository extends Neo4jRepository<HUB, Long> {
                     "END AS targetNameOrNumber")
         List<GetAllConnectionsQueryResult> getAllConnections();
 
+
+        @Query("MATCH (h:HUB {name: $currentName}) SET h.name = $newName RETURN h")
+        HUB updateName(String currentName, String newName);
+
     
 }
 

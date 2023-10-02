@@ -139,15 +139,41 @@ public class TankService {
         tankRepository.deleteConnectionToHub(tankNumber, hubName);
     }
 
-
+    /**
+     * Método para conectar um tanque a uma válvula.
+     * @param tankNumber O número do tanque a ser conectado.
+     * @param valveName O nome da válvula ao qual o tanque será conectado.
+     */
     public void connectTankToValve(int tankNumber, String valveName) {
         tankRepository.connectTankToValve(tankNumber, valveName);
     }
 
+    /**
+     * Método para deletar uma conexão entre um tanque e uma válvula.
+     * @param tankNumber O número do tanque cuja conexão com a válvula será deletada.
+     * @param valveName O nome da válvula cuja conexão com o tanque será deletada.
+     */
     public void deleteConnectionToValve(int tankNumber, String valveName) {
         tankRepository.deleteConnectionToValve(tankNumber, valveName);
     }
 
+    /**
+     * Método para atualizar o nome de um tanque.
+     * @param currentName O nome atual do tanque.
+     * @param newName O novo nome do tanque.
+     * @return O tanque com o nome atualizado.
+     */
+    public Tank updateName(String currentName, String newName) {
+        return tankRepository.updateName(currentName, newName);
+    }
+
+    /**
+     * Método para atualizar a posição de um tanque.
+     * @param number O número do tanque.
+     * @param positionX A nova posição X do tanque.
+     * @param positionY A nova posição Y do tanque.
+     * @return O tanque com a posição atualizada.
+     */
     public Tank updateTankPosition(int number, Integer positionX, Integer positionY){
         Tank tank = getTankByNumber(number); 
         

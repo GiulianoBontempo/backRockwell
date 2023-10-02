@@ -22,9 +22,12 @@ Rockwell\CRUD\requests\CreateHUBRequest.class
 Rockwell\CRUD\repositories\TankRepository.class
 Rockwell\CRUD\controllers\CsvController.class
 Rockwell\CRUD\controllers\TankController.class
+Rockwell\CRUD\repositories\GeneralRepository.class
 Rockwell\CRUD\requests\DeletarArestaRequest.class
 Rockwell\CRUD\models\EntradaESaida.class
 Rockwell\CRUD\requests\UpdateEntradaESaidaPosition.class
+Rockwell\CRUD\controllers\GeneralController.class
+Rockwell\CRUD\services\GeneralService.class
 Rockwell\CRUD\requests\CreateEntradaESaidaRequest.class
 Rockwell\CRUD\queries\GetAllConnectionsQueryResult.class
 Rockwell\CRUD\services\ValveService.class

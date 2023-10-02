@@ -170,16 +170,43 @@ public class HUBService {
     }
 
 
+    /**
+     * Método para conectar um HUB a uma válvula.
+     * @param hubName O nome do HUB.
+     * @param valveName O nome da válvula.
+     */
     public void connectHUBToValve(String hubName, String valveName) {
         hubRepository.connectHUBToValve(hubName, valveName);
     }
 
+    /**
+     * Método para deletar uma conexão entre um HUB e uma válvula.
+     * @param hubName O nome do HUB.
+     * @param valveName O nome da válvula.
+     */
 
     public void deleteConnectionToValve(String hubName, String valveName) {
         hubRepository.deleteConnectionToValve(hubName, valveName);
     }
+
+    /**
+     * Método para atualizar o nome de um HUB.
+     * @param currentName O nome atual do HUB.
+     * @param newName O novo nome do HUB.
+     * @return O HUB com o nome atualizado.
+     */
+    public HUB updateName(String currentName, String newName) {
+        return hubRepository.updateName(currentName, newName);
+    }
     
 
+    /**
+     * Método para atualizar a posição de um HUB.
+     * @param name O nome do HUB.
+     * @param positionX A nova posição X do HUB.
+     * @param positionY A nova posição Y do HUB.
+     * @return O HUB com a posição atualizada.
+     */
     public HUB updateHubPosition(String name, Integer positionX, Integer positionY){
         HUB hub = getHubByName(name);
         

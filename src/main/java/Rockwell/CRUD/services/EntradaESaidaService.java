@@ -121,6 +121,11 @@ public class EntradaESaidaService {
         entradaESaidaRepository.deleteConnectionToTank(entradaESaidaName, tankNumber);
     }
 
+
+    public EntradaESaida updateName(String currentName, String newName) {
+        return entradaESaidaRepository.updateName(currentName, newName);
+    }
+
     public EntradaESaida updateEntradaESaidaPosition(String name, Integer positionX, Integer positionY){
         EntradaESaida entradaESaida = getEntradaESaidaByName(name);
     

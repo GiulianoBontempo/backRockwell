@@ -4,13 +4,15 @@ package Rockwell.CRUD.models;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
 // Anotação que indica que essa classe é um nó no banco de dados orientado a grafos
 @Node
 public class EntradaESaida {
-    @Id                  //@GeneratedValue
+    @Id
+    @GeneratedValue
     private long id;     // Identificador único do item
 
     private String name;
