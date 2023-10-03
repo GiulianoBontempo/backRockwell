@@ -45,14 +45,14 @@ public class EntradaESaidaService {
 
 
         */
-    public EntradaESaida createEntradaOuSaida(CreateEntradaESaidaRequest request) {
-        EntradaESaida EntradaESaida = new EntradaESaida();
-        EntradaESaida.setId(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
-        EntradaESaida.setName(request.getName());
-        EntradaESaida.setPositionX(request.getPositionX());
-        EntradaESaida.setPositionY(request.getPositionY());
-        return entradaESaidaRepository.save(EntradaESaida);
-    }
+        public EntradaESaida createEntradaOuSaida(CreateEntradaESaidaRequest request) {
+            EntradaESaida entradaESaida = new EntradaESaida();
+            entradaESaida.setName(request.getName());
+            entradaESaida.setPositionX(request.getPositionX());
+            entradaESaida.setPositionY(request.getPositionY());
+            return entradaESaidaRepository.save(entradaESaida);
+        }
+        
 
 
      /**

@@ -207,15 +207,20 @@ public class TankController {
         return new ResponseEntity<>("Conexão entre Tank e Valve deletada", HttpStatus.OK);
     }
 
+     /**
+     * Atualiza o nome de um Tank.
+     *
+     * @param updateMap Um mapa que contém o nome atual do HUB e o novo nome do HUB.
+     * @return Um ResponseEntity com o HUB atualizado.
+     */
 
-
-    @PatchMapping("/updateName")
+     @PatchMapping("/updateNumber")
     @CrossOrigin(origins = "*", allowedHeaders = { "*" })
-    public ResponseEntity<Tank> updateName(@RequestBody Map<String, String> updateMap) {
-        String currentName = updateMap.get("currentName");
-        String newName = updateMap.get("newName");
-        Tank updatedTank = tankService.updateName(currentName, newName);
-        return new ResponseEntity<>(updatedTank, HttpStatus.OK);
+    public ResponseEntity<String> updateNumber(@RequestBody Map<String, Long> updateMap) {
+        long currentNumber = updateMap.get("currentNumber");
+        long newNumber = updateMap.get("newNumber");
+        Tank updatedTank = tankService.updateNumber(currentNumber, newNumber);
+        return new ResponseEntity<>("Numero atualizado", HttpStatus.OK);
     }
 
       

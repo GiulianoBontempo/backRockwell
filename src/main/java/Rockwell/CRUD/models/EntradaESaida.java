@@ -11,9 +11,14 @@ import org.springframework.data.neo4j.core.schema.Relationship;
 // Anotação que indica que essa classe é um nó no banco de dados orientado a grafos
 @Node
 public class EntradaESaida {
-    @Id
-    @GeneratedValue
-    private long id;     // Identificador único do item
+    
+    
+    
+    @Id @GeneratedValue
+    private long id;
+
+    // Identificador único do item
+
 
     private String name;
     private int positionX;

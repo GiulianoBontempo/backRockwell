@@ -86,7 +86,9 @@ public interface TankRepository extends Neo4jRepository<Tank, Long> {
     void deleteConnectionToValve(int tankNumber, String valveName);
 
 
-    @Query("MATCH (t:Tank {name: $currentName}) SET t.name = $newName RETURN t")
-    Tank updateName(String currentName, String newName);
+    @Query("MATCH (t:Tank {number: $currentNumber}) SET t.number = $newNumber RETURN t")
+    Tank updateNumber(long currentNumber, long newNumber);
+
+    
 
 }

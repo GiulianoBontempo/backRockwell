@@ -163,9 +163,10 @@ public class TankService {
      * @param newName O novo nome do tanque.
      * @return O tanque com o nome atualizado.
      */
-    public Tank updateName(String currentName, String newName) {
-        return tankRepository.updateName(currentName, newName);
+    public Tank updateNumber(long currentNumber, long newNumber) {
+        return tankRepository.updateNumber(currentNumber, newNumber);
     }
+    
 
     /**
      * Método para atualizar a posição de um tanque.
