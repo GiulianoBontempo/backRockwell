@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +47,23 @@ public class GenericEdgeController {
             String typeEnd = (String) connectMap.get("typeEnd");
             String nameOrNumberEnd = (String) connectMap.get("nameOrNumberEnd");
             genericEdgeService.createEdges(typeStart, nameOrNumberStart, typeEnd, nameOrNumberEnd);
+            return ResponseEntity.ok("Sucesso!");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/deleteEdge")
+    @CrossOrigin(origins = "*", allowedHeaders = { "*" })
+
+    public ResponseEntity<String> deleteEdges(@RequestBody Map<String, Object> connectMap) {
+        try {
+            String typeStart = (String) connectMap.get("typeStart");
+            String nameOrNumberStart = (String) connectMap.get("nameOrNumberStart");
+            String typeEnd = (String) connectMap.get("typeEnd");
+            String nameOrNumberEnd = (String) connectMap.get("nameOrNumberEnd");
+            genericEdgeService.deleteEdges(typeStart, nameOrNumberStart, typeEnd, nameOrNumberEnd);
+            
             return ResponseEntity.ok("Sucesso!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

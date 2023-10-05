@@ -31,11 +31,13 @@ public class Tank {
     public Integer getNumber() {
         return number;
     }
-
+    
+    // Método getter para obter a posição do tanque
     public Integer getPositionX(){
         return positionX;
     }
 
+    // Método getter para obter a posição do tanque
     public Integer getPositionY(){
         return positionY;
     }   
@@ -45,10 +47,13 @@ public class Tank {
         this.number = number;
     }
 
+    // Método setter para definir a posição do tanque
     public void setPositionX(Integer positionX){
         this.positionX = positionX;
     }
 
+
+    // Método setter para definir a posição do tanque
     public void setPositionY(int positionY){
         this.positionY = positionY;
     }

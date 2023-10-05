@@ -210,6 +210,12 @@ public class ValveController {
     }
 
 
+       /**
+    * Atualiza o nome de uma Valve.
+    *
+    * @param updateMap Um mapa que contém o nome atual da Valve e o novo nome da Valve.
+    * @return Um ResponseEntity com a Valve atualizada.
+    */
     @PatchMapping("/updateName")
     @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<Valve> updateName(@RequestBody Map<String, String> updateMap) {

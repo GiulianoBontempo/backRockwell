@@ -219,7 +219,7 @@ public class TankController {
     public ResponseEntity<String> updateNumber(@RequestBody Map<String, Long> updateMap) {
         long currentNumber = updateMap.get("currentNumber");
         long newNumber = updateMap.get("newNumber");
-        Tank updatedTank = tankService.updateNumber(currentNumber, newNumber);
+        tankService.updateNumber(currentNumber, newNumber);
         return new ResponseEntity<>("Numero atualizado", HttpStatus.OK);
     }
 

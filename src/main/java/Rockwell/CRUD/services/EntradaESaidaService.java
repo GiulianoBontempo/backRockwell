@@ -104,28 +104,71 @@ public class EntradaESaidaService {
         entradaESaidaRepository.connectToHub(entradaESaidaName, hubName);
     }
 
+       /**
+    * Conecta uma EntradaESaida a uma Valve.
+    *
+    * @param entradaESaidaName Nome da EntradaESaida que será conectada.
+    * @param valveName Nome da Valve à qual a EntradaESaida será conectada.
+    */
     public void connectEntradaESaidaToValve(String entradaESaidaName, String valveName) {
         entradaESaidaRepository.connectEntradaESaidaToValve(entradaESaidaName, valveName);
     }
 
+
+           /**
+    * Deleta a conexão de uma EntradaESaida com uma Valve.
+    *
+    * @param entradaESaidaName Nome da EntradaESaida cuja conexão será deletada.
+    * @param valveName Nome da Valve da qual a EntradaESaida será desconectada.
+    */
     public void deleteConnectionToValve(String entradaESaidaName, String valveName) {
         entradaESaidaRepository.deleteConnectionToValve(entradaESaidaName, valveName);
     }
 
+
+       /**
+    * Deleta a conexão de uma EntradaESaida com um Hub.
+    *
+    * @param entradaESaidaName Nome da EntradaESaida cuja conexão será deletada.
+    * @param hubName Nome do Hub do qual a EntradaESaida será desconectada.
+    */
     public void deleteConnectionToHub(String entradaESaidaName, String hubName) {
         entradaESaidaRepository.deleteConnectionToHub(entradaESaidaName, hubName);
     }
 
 
+
+        /**
+     * Deleta a conexão de uma EntradaESaida com um Tank.
+     *
+     * @param entradaESaidaName Nome da EntradaESaida cuja conexão será deletada.
+     * @param tankNumber Número do Tank do qual a EntradaESaida será desconectada.
+     */
     public void deleteConnectionToTank(String entradaESaidaName, int tankNumber) {
         entradaESaidaRepository.deleteConnectionToTank(entradaESaidaName, tankNumber);
     }
 
 
+        /**
+     * Atualiza o nome de uma EntradaESaida.
+     *
+     * @param currentName Nome atual da EntradaESaida.
+     * @param newName Novo nome para a EntradaESaida.
+     * @return A EntradaESaida com o nome atualizado.
+     */
     public EntradaESaida updateName(String currentName, String newName) {
         return entradaESaidaRepository.updateName(currentName, newName);
     }
 
+
+        /**
+     * Atualiza a posição de uma EntradaESaida.
+     *
+     * @param name Nome da EntradaESaida cuja posição será atualizada.
+     * @param positionX Nova coordenada X (se fornecida).
+     * @param positionY Nova coordenada Y (se fornecida).
+     * @return A EntradaESaida com a posição atualizada.
+     */
     public EntradaESaida updateEntradaESaidaPosition(String name, Integer positionX, Integer positionY){
         EntradaESaida entradaESaida = getEntradaESaidaByName(name);
     

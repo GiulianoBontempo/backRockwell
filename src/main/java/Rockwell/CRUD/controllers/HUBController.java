@@ -218,7 +218,6 @@ public class HUBController {
      */
 
 
-    // Endpoint para deletar a conexão entre um HUB a um entradaESaida
     @DeleteMapping("/deleteConnectionToEntradaESaida")
     @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> deleteConnectionToEntradaESaida(@RequestBody HubToEntradaESaidaRequest request){
@@ -242,8 +241,6 @@ public class HUBController {
      * @param request O pedido contendo informações para a desconexão.
      * @return Uma mensagem de sucesso ou erro.
      */
-
-
     @DeleteMapping("/deleteConnectionToHub")
     @CrossOrigin(origins = "*", allowedHeaders = { "*" })
     public ResponseEntity<String> deleteConnectionToHub(@RequestBody HUBToHUBRequest request){
@@ -290,10 +287,14 @@ public class HUBController {
     }
 
 
-
+       /**
+    * Atualiza o nome de um HUB.
+    *
+    * @param updateMap Um mapa que contém o nome atual do HUB e o novo nome do HUB.
+    * @return Um ResponseEntity com o HUB atualizado.
+    */
      @PatchMapping("/updateName")
-     @CrossOrigin(origins = "*", allowedHeaders = { "*" })
-
+     @CrossOrigin(origins = "*", allowedHeaders = { "*" })  
     public ResponseEntity<HUB> updateName(@RequestBody Map<String, String> updateMap) {
         String currentName = updateMap.get("currentName");
         String newName = updateMap.get("newName");

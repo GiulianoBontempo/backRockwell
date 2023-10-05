@@ -77,17 +77,34 @@ public interface TankRepository extends Neo4jRepository<Tank, Long> {
     @Query("MATCH (tank:Tank {number: $tankName})-[r:CONNECTED_TO]->(hub:HUB {name: $hubName}) " +
            "DELETE r")
     void deleteConnectionToHub(Integer tankName, String hubName);
+/**
+ * Conecta um Tank a uma Valve.
+ *
+ * @param tankNumber Número do Tank que será conectado.
+ * @param valveName Nome da Valve à qual o Tank será conectado.
+ */
+@Query("MATCH (t:Tank {number: $tankNumber}), (v:Valve {name: $valveName}) CREATE (t)-[:CONNECTED_TO]->(v)")
+void connectTankToValve(int tankNumber, String valveName);
 
+/**
+ * Deleta a conexão entre um Tank e uma Valve.
+ *
+ * @param tankNumber Número do Tank cuja conexão será deletada.
+ * @param valveName Nome da Valve da qual o Tank será desconectado.
+ */
+@Query("MATCH (t:Tank {number: $tankNumber})-[r:CONNECTED_TO]->(v:Valve {name: $valveName}) DELETE r")
+void deleteConnectionToValve(int tankNumber, String valveName);
 
-    @Query("MATCH (t:Tank {number: $tankNumber}), (v:Valve {name: $valveName}) CREATE (t)-[:CONNECTED_TO]->(v)")
-    void connectTankToValve(int tankNumber, String valveName);
+/**
+ * Atualiza o número de um Tank.
+ *
+ * @param currentNumber Número atual do Tank.
+ * @param newNumber Novo número para o Tank.
+ * @return O Tank com o número atualizado.
+ */
+@Query("MATCH (t:Tank {number: $currentNumber}) SET t.number = $newNumber RETURN t")
+Tank updateNumber(long currentNumber, long newNumber);
 
-    @Query("MATCH (t:Tank {number: $tankNumber})-[r:CONNECTED_TO]->(v:Valve {name: $valveName}) DELETE r")
-    void deleteConnectionToValve(int tankNumber, String valveName);
-
-
-    @Query("MATCH (t:Tank {number: $currentNumber}) SET t.number = $newNumber RETURN t")
-    Tank updateNumber(long currentNumber, long newNumber);
 
     
 
